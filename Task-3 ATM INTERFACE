@@ -1,0 +1,79 @@
+import java.util.Scanner;
+
+// Class representing user's bank account
+class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("✅ ₹" + amount + " deposited successfully.");
+        } else {
+            System.out.println("❌ Invalid deposit amount.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("❌ Withdrawal amount must be positive.");
+        } else if (amount > balance) {
+            System.out.println("❌ Insufficient balance. Withdrawal failed.");
+        } else {
+            balance -= amount;
+            System.out.println("✅ ₹" + amount + " withdrawn successfully.");
+        }
+    }
+
+    public void checkBalance() {
+        System.out.printf("💰 Current Balance: ₹%.2f\n", balance);
+    }
+}
+
+// Main ATM interface class
+public class ATMInterface {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BankAccount account = new BankAccount(5000.00); // Starting balance
+
+        System.out.println("🏧 Welcome to the Simple ATM Interface");
+
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\n----------------------------");
+            System.out.println("1. Withdraw 💵");
+            System.out.println("2. Deposit 💰");
+            System.out.println("3. Check Balance 📊");
+            System.out.println("4. Exit ❌");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to withdraw: ₹");
+                    double withdrawAmt = scanner.nextDouble();
+                    account.withdraw(withdrawAmt);
+                    break;
+                case 2:
+                    System.out.print("Enter amount to deposit: ₹");
+                    double depositAmt = scanner.nextDouble();
+                    account.deposit(depositAmt);
+                    break;
+                case 3:
+                    account.checkBalance();
+                    break;
+                case 4:
+                    System.out.println("👋 Thank you for using the ATM. Have a nice day!");
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("⚠️ Invalid input. Please enter a number between 1 and 4.");
+            }
+        }
+
+        scanner.close();
+    }
+}
